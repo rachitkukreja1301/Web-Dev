@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/>
+    <title>Scramble It!!</title>
+ 
+</head>
+<body>
+    <header>
+        <h1 class="animate__animated animate__rubberBand"> GUESS IT !!</h1>
+    </header>
+
+    <section>
+        <div class="gameArea">
+            <h3 class="msg"></h3>
+            <input type="text" class="hidden">
+            <button class="btn">Click Here to Start !</button>
+        </div>
+    </section>
+
+
+    <script>
+    const msg = document.querySelector('.msg');
+    const guess = document.querySelector('input');
+    const btn = document.querySelector('.btn');
+    let words = [ 'python' , 'javascript' , 'postgre' , 'oracle' , 'java' , 'visual studio', 'html', 'css', 'reactjs', 'angular', 'swift', 'android', 'droid cam'];
+    let play = false;
+    let ranWords="";
+    let newWords = "" ;
+    const createWords = () => {
+            // console.log(words[1]);
+            let ranNum = Math.floor(Math.random() * words.length);
+            //  console.log(ranNum); in points 
+            let tempWord = words[ranNum];
+            // console.log(tempWord).split("");
+
+            return tempWord;
+
+    }
+
+     const scrambleWords = (arr) => {
+         for(let i = arr.length-1 ; i>=0 ;i--){
+            let temp=arr[i]; 
+            //  console.log(temp); 
+            let j = Math.floor(Math.random() * (i+1));
+            // console.log(i);
+            // console.log(j);
+            arr[i]=arr[j];
+            arr[j]=temp;
+
+            return arr;
+         }
+    }
+
+
+    btn.addEventListener('click',function(){
+        if(!play) //true}
+        {
+            play = true ;
+            btn.innerHTML = "Guess Now !";
+            guess.classList.toggle('hidden');
+            newWords =  createWords();  
+           ranWords = scrambleWords(newWords.split("")).join("");           
+        //    console.log(ranWords);
+           msg.innerHTML = ranWords;
+        }else{
+            let tempWord = guess.value;
+            if(tempWord === newWords)
+            {
+                // console.log(`correct`); 
+                play = false;
+                msg.innerHTML=`Correct !! word is ${newWords}`;
+                btn.innerHTML = "Start Again"; 
+                guess.classList.toggle('hidden');
+                guess.value="";
+            }else{
+                // console.log(`incorrect`);
+                msg.innerHTML=`Incorrect :( Try Again! word is "${ranWords}"`;
+                guess.value="";
+                btn.innerHTML='Try Again';
+            }   
+        }
+    })
+
+    </script>
+</body>
+</html>
